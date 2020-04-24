@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>Clicker</title>
+
+	<style type="text/css">
+
+		/* Styles */
+
+		@font-face {
+			font-family: darb;
+			src: url(darb.ttf);
+		}
+
+		body {
+			background-color: black;
+			font-family: darb;
+		}
+
+		p {
+			color: white;
+		}
+
+		.column {
+			float: left;
+			padding-left: 20px;
+		}
+
+		/* Left Column */
+
+		.big_counter {
+			font-size: 120px;
+			width: 400px;
+			height: 200px;
+			margin-bottom: 40px;
+			background-color: #557980;
+			font-family: darb;
+		}
+
+		.counter p {
+			font-size: 103px;
+			margin: 10px;
+		}
+
+		/* Right Column */
+		.right div {
+			margin-top: 10px;
+		}
+
+		.right div * {
+			display: inline-block;
+			vertical-align: middle;
+		}
+
+		.right div p {
+			width: 130px;
+			text-align: center;
+			font-size: 27px;
+			margin: 0;
+		}
+	</style>
+
+	<script type="text/javascript">
+		var clicks = 0;
+		var rate1 = 511;
+		var rate2 = 512;
+
+		function countIncrease() {
+			clicks++;
+			oddsCalc();
+		}
+
+		function countSet() {
+			clicks = document.getElementById("set_number").value;
+			oddsCalc();
+		}
+
+		function rateSet() {
+			rate2 = document.getElementById("set_rate").value;
+			rate1 = rate2-1;
+
+			document.getElementById("current_odds").innerHTML = rate2;
+
+			oddsCalc();
+		}
+
+		function oddsCalc() {
+			var odds1 = Math.pow((rate1/rate2), clicks); ;			
+			var odds2 = 100-(odds1*100);
+			var odds3 = odds2.toFixed(2);
+
+			document.getElementById("clicks").innerHTML = clicks;
+			document.getElementById("odds").innerHTML = odds3 + '%';
+			};
+	</script>
+</head>
+
+<body>
+	<div class="column left">
+		<div class="counter">
+			<button class="big_counter" type="button" onClick="countIncrease()">Click Me</button>
+
+			<p>Chain: <a id="clicks">0</a></p>
+			<p>Odds: <a id="odds">0.00%</a></p>
+		</div>
+	</div>
+
+	<div class="column right">
+		<div>
+			<p>Starting Number</p>
+			<input id="set_number" type="number" value="0" />
+			<button type="button" onClick="countSet()">Enter</button>
+		</div>
+
+		<div>
+			<p>Odds (1/<a id="current_odds">512</a>)</p>
+			<input id="set_rate" type="number" value="512"/>
+			<button type="button" onClick="rateSet()">Enter</button>
+		</div>
+	</div>
+</body>
